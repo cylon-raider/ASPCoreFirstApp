@@ -1,6 +1,5 @@
 ﻿using ASPCoreFirstApp.Models;
 using ASPCoreFirstApp.Services;
-using Bogus;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -8,13 +7,12 @@ namespace ASPCoreFirstApp.Controllers
 {
     public class ProductsController : Controller
     {
-        ProductsDAO repository = new ProductsDAO();
-
+        ProductsDAO repository;
         public ProductsController()
         {
             repository = new ProductsDAO();
         }
-        
+
         public IActionResult Index()
         {
             return View(repository.AllProducts());
@@ -31,6 +29,40 @@ namespace ASPCoreFirstApp.Controllers
             return View();
         }
 
+        public IActionResult ShowOneProduct(int Id)
+        {
+            return View(repository.GetProductById(Id));
+        }
+
+        public IActionResult ShowOneProductJSON(int Id)
+        {
+            return Json(repository.GetProductById(Id));
+        }
+
+        public IActionResult ShowEditForm(int Id)
+        {
+            return View(repository.GetProductById(Id));
+        }
+
+        public IActionResult ProcessEdit(ProductModel product)
+        {
+            repository.Update(product);
+            return View("Index", repository.AllProducts());
+        }
+
+        public IActionResult ProcessEditReturnPartial(ProductModel product)
+        {
+            repository.Update(product);
+            return PartialView("_productCard", product);
+        }
+
+        public IActionResult Delete(int Id)
+        {
+            ProductModel product = repository.GetProductById(Id);
+            repository.Delete(product);
+            return View("Index", repository.AllProducts());
+        }
+
         public IActionResult Message()
         {
             return View();
@@ -44,4 +76,3 @@ namespace ASPCoreFirstApp.Controllers
         }
     }
 }
- 

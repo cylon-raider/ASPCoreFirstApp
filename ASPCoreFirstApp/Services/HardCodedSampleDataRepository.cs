@@ -37,7 +37,7 @@ namespace ASPCoreFirstApp.Services
             return productList;
         }
 
-        public bool Delete(ProductModel product)
+        public int Delete(ProductModel product)
         {
             throw new System.NotImplementedException();
         }
