@@ -8,8 +8,8 @@ namespace ASPCoreFirstApp.Services
         List<ProductModel> AllProducts();
         List<ProductModel> SearchProducts(string searchTerm);
         ProductModel GetProductById(int id);
-        int Insert(ProductModel product);
-        int Delete(ProductModel product);
-        int Update(ProductModel product);
+        int Insert(ProductModel productModel);
+        int Delete(ProductModel productModel);
+        int Update(ProductModel productModel);
     }
 }

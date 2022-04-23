@@ -29,7 +29,7 @@ namespace ASPCoreFirstApp.Services
 
                     while (reader.Read())
                     {
-                        foundProducts.Add(new ProductModel((int)reader[0], (string)reader[1], (decimal)reader[2], (string)reader [3]));
+                        foundProducts.Add(new ProductModel((int)reader[0], (string)reader[1], (decimal)reader[2], (string)reader[3]));
                     }
                 }
                 catch (Exception ex)
@@ -40,7 +40,7 @@ namespace ASPCoreFirstApp.Services
             return foundProducts;
         }
 
-        public int Delete(ProductModel product)
+        public int Delete(ProductModel productModel)
         {
             // Returns -1 if the update fails
             int newIdNumber = -1;
@@ -49,9 +49,9 @@ namespace ASPCoreFirstApp.Services
                 string query = "DELETE FROM dbo.Products WHERE Id = @Id";
 
                 SqlCommand myCommand = new SqlCommand(query, connection);
-                
-                myCommand.Parameters.AddWithValue("@Id", product.Id);
-                
+
+                myCommand.Parameters.AddWithValue("@Id", productModel.Id);
+
 
                 try
                 {
@@ -99,9 +99,31 @@ namespace ASPCoreFirstApp.Services
             return foundProduct;
         }
 
-        public int Insert(ProductModel product)
+        public int Insert(ProductModel productModel)
         {
-            throw new System.NotImplementedException();
+            int newIdNumber = -1;
+
+            string sqlStatement = "INSERT INTO dbo.Products (Name, Price, Description) VALUES (@Name, @Price, @Description)";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlStatement, connection);
+
+                command.Parameters.AddWithValue("@Name", productModel.Name);
+                command.Parameters.AddWithValue("@Price", productModel.Price);
+                command.Parameters.AddWithValue("@Description", productModel.Description);
+
+                try
+                {
+                    connection.Open();
+                    newIdNumber = Convert.ToInt32(command.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                };
+            }
+            return newIdNumber;
         }
 
         public List<ProductModel> SearchProducts(string searchTerm)
@@ -137,19 +159,19 @@ namespace ASPCoreFirstApp.Services
             return foundProducts;
         }
 
-        public int Update(ProductModel product)
+        public int Update(ProductModel productModel)
         {
             // Returns -1 if the update fails
-            int newIdNumber = -1; 
+            int newIdNumber = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string query = "UPDATE dbo.Products SET Name = @Name, Price = @Price, Description = @Description WHERE Id = @Id";
 
                 SqlCommand myCommand = new SqlCommand(query, connection);
-                myCommand.Parameters.AddWithValue("@Id", product.Id);
-                myCommand.Parameters.AddWithValue("@Name", product.Name);
-                myCommand.Parameters.AddWithValue("@Price", product.Price);
-                myCommand.Parameters.AddWithValue("@Description", product.Description);
+                myCommand.Parameters.AddWithValue("@Id", productModel.Id);
+                myCommand.Parameters.AddWithValue("@Name", productModel.Name);
+                myCommand.Parameters.AddWithValue("@Price", productModel.Price);
+                myCommand.Parameters.AddWithValue("@Description", productModel.Description);
 
                 try
                 {
