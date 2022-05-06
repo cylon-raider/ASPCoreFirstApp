@@ -7,10 +7,17 @@ namespace ASPCoreFirstApp.Controllers
 {
     public class ProductsController : Controller
     {
-        ProductsDAO repository;
-        public ProductsController()
+        // ProductsDAO repository = new ProductsDAO();
+        // HardCodedSampleDataRepository repository;
+
+        // use dependency injection. See startup.cs to see the source for repository.
+        public IProductsDataService repository { get; set; }
+
+
+        // The constructor needs a parameter passing in which type of data service we're using
+        public ProductsController(IProductsDataService dataService)
         {
-            repository = new ProductsDAO();
+            repository = dataService;
         }
 
         public IActionResult Index()
