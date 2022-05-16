@@ -8,7 +8,9 @@ namespace ASPCoreFirstApp.Services
     public class ProductsDAO : IProductsDataService
     {
 
-        string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = Test; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        /*string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = Test; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+         * */
+        string connectionString = "Server=tcp:activity8.database.windows.net,1433;Initial Catalog=TestDB;Persist Security Info=False;User ID=cmarkel;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
 
         public List<ProductModel> AllProducts()
         {
